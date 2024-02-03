@@ -2,11 +2,7 @@ package com.nnk.springboot.domain;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,6 +24,7 @@ public class CurvePoint {
 
     private double term;
 
+    @Column(name = "curve_value")
     private double value;
 
     private LocalDateTime creationDate;

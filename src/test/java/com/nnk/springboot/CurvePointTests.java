@@ -20,7 +20,6 @@ public class CurvePointTests {
     private CurvePointRepository curvePointRepository;
 
     @Test
-    @Disabled
     public void curvePointTest() {
         CurvePoint curvePoint = new CurvePoint(10, 10d, 30d);
 
