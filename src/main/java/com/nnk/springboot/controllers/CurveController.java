@@ -26,7 +26,7 @@ public class CurveController {
     @GetMapping("/curvePoint/list")
     public String home(Model model) {
         final List<CurvePoint> allCurves = curveService.getAllCurves();
-        model.addAttribute(allCurves);
+        model.addAttribute("curvePoints", allCurves);
         return "curvePoint/list";
     }
 
@@ -40,14 +40,14 @@ public class CurveController {
         if (result.hasErrors()) {
             // TODO return field list with error message
         }
-        curveService.save();
+        curveService.save(curvePoint);
         return "curvePoint/add";
     }
 
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         final CurvePoint curve = curveService.getCurveById(id);
-        model.addAttribute(curve);
+        model.addAttribute("curvePoint", curve);
         return "curvePoint/update";
     }
 
@@ -57,7 +57,7 @@ public class CurveController {
         if (result.hasErrors()) {
             // TODO return field list with error message
         }
-        curveService.update(curvePoint);
+        curveService.update(id, curvePoint);
         return "redirect:/curvePoint/list";
     }
 

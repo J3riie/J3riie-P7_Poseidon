@@ -5,35 +5,37 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.CurvePoint;
-
-import jakarta.validation.Valid;
+import com.nnk.springboot.repositories.CurvePointRepository;
 
 @Service
 public class CurvePointService {
 
-    public List<CurvePoint> getAllCurves() {
-        // TODO Auto-generated method stub
-        return null;
+    private final CurvePointRepository repository;
+
+    public CurvePointService(CurvePointRepository curvePointRepository) {
+        this.repository = curvePointRepository;
     }
 
-    public void save() {
-        // TODO Auto-generated method stub
+    public List<CurvePoint> getAllCurves() {
+        return repository.findAll();
+    }
+
+    public void save(CurvePoint curvePoint) {
+        repository.save(curvePoint);
 
     }
 
     public CurvePoint getCurveById(Integer id) {
-        // TODO Auto-generated method stub
-        return null;
+        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid curve Id:" + id));
     }
 
-    public void update(@Valid CurvePoint curvePoint) {
-        // TODO Auto-generated method stub
-
+    public void update(Integer id, CurvePoint curvePoint) {
+        curvePoint.setId(id);
+        repository.save(curvePoint);
     }
 
-    public void delete(CurvePoint curveById) {
-        // TODO Auto-generated method stub
-
+    public void delete(CurvePoint curvePoint) {
+        repository.delete(curvePoint);
     }
 
 }

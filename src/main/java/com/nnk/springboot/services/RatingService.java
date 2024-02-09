@@ -5,35 +5,37 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.Rating;
-
-import jakarta.validation.Valid;
+import com.nnk.springboot.repositories.RatingRepository;
 
 @Service
 public class RatingService {
 
-    public List<Rating> getAllRatings() {
-        // TODO Auto-generated method stub
-        return null;
+    private final RatingRepository repository;
+
+    public RatingService(RatingRepository ratingRepository) {
+        this.repository = ratingRepository;
     }
 
-    public void save() {
-        // TODO Auto-generated method stub
+    public List<Rating> getAllRatings() {
+        return repository.findAll();
+    }
 
+    public void save(Rating rating) {
+        repository.save(rating);
     }
 
     public Rating getRatingById(Integer id) {
-        // TODO Auto-generated method stub
-        return null;
+        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid rating Id:" + id));
     }
 
-    public void update(@Valid Rating rating) {
-        // TODO Auto-generated method stub
+    public void update(Integer id, Rating rating) {
+        rating.setId(id);
+        repository.save(rating);
 
     }
 
-    public void delete(Rating ratingById) {
-        // TODO Auto-generated method stub
-
+    public void delete(Rating rating) {
+        repository.delete(rating);
     }
 
 }

@@ -26,7 +26,7 @@ public class RatingController {
     @GetMapping("/rating/list")
     public String home(Model model) {
         final List<Rating> allRatings = ratingService.getAllRatings();
-        model.addAttribute(allRatings);
+        model.addAttribute("ratings", allRatings);
         return "rating/list";
     }
 
@@ -40,14 +40,14 @@ public class RatingController {
         if (result.hasErrors()) {
             // TODO return field list with error message
         }
-        ratingService.save();
+        ratingService.save(rating);
         return "rating/add";
     }
 
     @GetMapping("/rating/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         final Rating rating = ratingService.getRatingById(id);
-        model.addAttribute(rating);
+        model.addAttribute("rating", rating);
         return "rating/update";
     }
 
@@ -57,7 +57,7 @@ public class RatingController {
         if (result.hasErrors()) {
             // TODO return field list with error message
         }
-        ratingService.update(rating);
+        ratingService.update(id, rating);
         return "redirect:/rating/list";
     }
 

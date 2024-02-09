@@ -22,7 +22,6 @@ public class BidListService {
 
     public void save(BidList bid) {
         repository.save(bid);
-
     }
 
     public BidList getBidById(Integer id) {

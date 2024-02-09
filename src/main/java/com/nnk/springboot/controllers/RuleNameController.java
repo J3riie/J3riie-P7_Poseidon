@@ -40,7 +40,7 @@ public class RuleNameController {
         if (result.hasErrors()) {
             // TODO return field list with error message
         }
-        ruleNameService.save();
+        ruleNameService.save(ruleName);
         return "ruleName/add";
     }
 
@@ -57,7 +57,7 @@ public class RuleNameController {
         if (result.hasErrors()) {
             // TODO return field list with error message
         }
-        ruleNameService.update(ruleNameService.getRuleNameById(id));
+        ruleNameService.update(id, ruleName);
         return "redirect:/ruleName/list";
     }
 

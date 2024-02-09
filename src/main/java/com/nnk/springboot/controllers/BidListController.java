@@ -26,7 +26,7 @@ public class BidListController {
     @GetMapping("/bidList/list")
     public String home(Model model) {
         final List<BidList> allBids = bidService.getAllBids();
-        model.addAttribute(allBids);
+        model.addAttribute("bids", allBids);
         return "bidList/list";
     }
 
@@ -47,7 +47,7 @@ public class BidListController {
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         final BidList bid = bidService.getBidById(id);
-        model.addAttribute(bid);
+        model.addAttribute("bid", bid);
         return "bidList/update";
     }
 
