@@ -40,9 +40,11 @@ public class CurvePointTests {
 
         // Delete
         final Integer id = curvePoint.getId();
+        final Optional<CurvePoint> curvePointListBeforeDelete = curvePointRepository.findById(id);
         curvePointRepository.delete(curvePoint);
-        final Optional<CurvePoint> curvePointList = curvePointRepository.findById(id);
-        assertThat(curvePointList).isPresent();
+        final Optional<CurvePoint> curvePointListAfterDelete = curvePointRepository.findById(id);
+        assertThat(curvePointListBeforeDelete).isPresent();
+        assertThat(curvePointListAfterDelete).isEmpty();
     }
 
 }

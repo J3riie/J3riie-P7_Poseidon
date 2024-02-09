@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.BidList;
 
-import jakarta.validation.Valid;
-
 @Service
 public class BidListService {
 
@@ -17,7 +15,7 @@ public class BidListService {
 
     }
 
-    public void save(@Valid BidList bid) {
+    public void save(BidList bid) {
         // TODO Auto-generated method stub
 
     }
@@ -27,7 +25,7 @@ public class BidListService {
         return null;
     }
 
-    public void update(@Valid BidList bidList) {
+    public void update(BidList bidList) {
         // TODO Auto-generated method stub
 
     }

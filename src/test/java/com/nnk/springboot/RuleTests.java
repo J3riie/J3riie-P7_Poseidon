@@ -38,8 +38,10 @@ public class RuleTests {
 
         // Delete
         final Integer id = rule.getId();
+        final Optional<RuleName> ruleListBeforeDelete = ruleNameRepository.findById(id);
         ruleNameRepository.delete(rule);
-        final Optional<RuleName> ruleList = ruleNameRepository.findById(id);
-        assertThat(ruleList).isPresent();
+        final Optional<RuleName> ruleListAfterDelete = ruleNameRepository.findById(id);
+        assertThat(ruleListBeforeDelete).isPresent();
+        assertThat(ruleListAfterDelete).isEmpty();
     }
 }

@@ -38,8 +38,10 @@ public class TradeTests {
 
         // Delete
         final Integer id = trade.getTradeId();
+        final Optional<Trade> tradeListBeforeDelete = tradeRepository.findById(id);
         tradeRepository.delete(trade);
-        final Optional<Trade> tradeList = tradeRepository.findById(id);
-        assertThat(tradeList).isPresent();
+        final Optional<Trade> tradeListAfterDelete = tradeRepository.findById(id);
+        assertThat(tradeListBeforeDelete).isPresent();
+        assertThat(tradeListAfterDelete).isEmpty();
     }
 }

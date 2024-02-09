@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
@@ -23,7 +22,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @RequestMapping("/user/list")
+    @GetMapping("/user/list")
     public String home(Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "user/list";

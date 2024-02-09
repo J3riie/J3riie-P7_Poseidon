@@ -23,7 +23,6 @@ public class TradeController {
 
     @GetMapping("/trade/add")
     public String addUser(Trade bid) {
-        // TODO parameter to be checked
         return "trade/add";
     }
 

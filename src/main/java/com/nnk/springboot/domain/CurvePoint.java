@@ -2,6 +2,7 @@ package com.nnk.springboot.domain;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,9 +18,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class CurvePoint {
-    // TODO: Map columns in data table CURVEPOINT with corresponding java fields
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "Id")
     private Integer id;
 
     private Integer curveId;
@@ -28,6 +29,7 @@ public class CurvePoint {
 
     private double term;
 
+    @Column(name = "curve_value")
     private double value;
 
     private LocalDateTime creationDate;

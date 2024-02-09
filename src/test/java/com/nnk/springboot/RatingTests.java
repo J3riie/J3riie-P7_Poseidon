@@ -38,8 +38,10 @@ public class RatingTests {
 
         // Delete
         final Integer id = rating.getId();
+        final Optional<Rating> ratingListBeforeDelete = ratingRepository.findById(id);
         ratingRepository.delete(rating);
-        final Optional<Rating> ratingList = ratingRepository.findById(id);
-        assertThat(ratingList).isPresent();
+        final Optional<Rating> ratingListAfterDelete = ratingRepository.findById(id);
+        assertThat(ratingListBeforeDelete).isPresent();
+        assertThat(ratingListAfterDelete).isEmpty();
     }
 }

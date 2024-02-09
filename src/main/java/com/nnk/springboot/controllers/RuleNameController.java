@@ -33,7 +33,6 @@ public class RuleNameController {
 
     @GetMapping("/ruleName/add")
     public String addRuleForm(RuleName bid) {
-        // TODO parameter to be checked
         return "ruleName/add";
     }
 
