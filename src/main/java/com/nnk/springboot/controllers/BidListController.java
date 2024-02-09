@@ -1,7 +1,6 @@
 package com.nnk.springboot.controllers;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,7 +25,6 @@ public class BidListController {
 
     @GetMapping("/bidList/list")
     public String home(Model model) {
-        // TODO: call service find all bids to show to the view
         final List<BidList> allBids = bidService.getAllBids();
         model.addAttribute(allBids);
         return "bidList/list";
@@ -39,9 +37,8 @@ public class BidListController {
 
     @PostMapping("/bidList/validate")
     public String validate(@Valid BidList bid, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return bid list
-        if (bid.getBidListId() == null || bid.getAccount().isBlank() || bid.getType().isBlank()) {
-            throw new RuntimeException();
+        if (result.hasErrors()) {
+            // TODO return field list with error message
         }
         bidService.save(bid);
         return "bidList/add";
@@ -49,7 +46,6 @@ public class BidListController {
 
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get Bid by Id and to model then show to the form
         final BidList bid = bidService.getBidById(id);
         model.addAttribute(bid);
         return "bidList/update";
@@ -57,18 +53,15 @@ public class BidListController {
 
     @PostMapping("/bidList/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Bid and return list Bid
-        if (!Objects.equals(bidList.getBidListId(), id) || bidList.getAccount().isBlank()
-                || bidList.getType().isBlank()) {
-            throw new RuntimeException();
+        if (result.hasErrors()) {
+            // TODO return field list with error message
         }
-        bidService.update(bidList);
+        bidService.update(id, bidList);
         return "redirect:/bidList/list";
     }
 
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Bid by Id and delete the bid, return to Bid list
         bidService.delete(bidService.getBidById(id));
         return "redirect:/bidList/list";
     }

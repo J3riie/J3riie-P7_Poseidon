@@ -5,34 +5,37 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.repositories.BidListRepository;
 
 @Service
 public class BidListService {
 
-    public List<BidList> getAllBids() {
-        return null;
-        // TODO Auto-generated method stub
+    private final BidListRepository repository;
 
+    public BidListService(BidListRepository bidListRepository) {
+        this.repository = bidListRepository;
+    }
+
+    public List<BidList> getAllBids() {
+        return repository.findAll();
     }
 
     public void save(BidList bid) {
-        // TODO Auto-generated method stub
+        repository.save(bid);
 
     }
 
     public BidList getBidById(Integer id) {
-        // TODO Auto-generated method stub
-        return null;
+        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));
     }
 
-    public void update(BidList bidList) {
-        // TODO Auto-generated method stub
-
+    public void update(Integer id, BidList bidList) {
+        bidList.setBidListId(id);
+        repository.save(bidList);
     }
 
-    public void delete(BidList bidById) {
-        // TODO Auto-generated method stub
-
+    public void delete(BidList bid) {
+        repository.delete(bid);
     }
 
 }
