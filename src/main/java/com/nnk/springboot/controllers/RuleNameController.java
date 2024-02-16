@@ -1,7 +1,5 @@
 package com.nnk.springboot.controllers;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,14 +17,17 @@ public class RuleNameController {
 
     private final RuleNameService ruleNameService;
 
+    private static final String RULE_NAMES = "ruleNames";
+
+    private static final String REDIRECT_SUCCESS = "redirect:/ruleName/list";
+
     public RuleNameController(RuleNameService ruleNameService) {
         this.ruleNameService = ruleNameService;
     }
 
     @GetMapping("/ruleName/list")
     public String home(Model model) {
-        final List<RuleName> allRuleNames = ruleNameService.getAllRuleNames();
-        model.addAttribute("ruleNames", allRuleNames);
+        model.addAttribute(RULE_NAMES, ruleNameService.getAllRuleNames());
         return "ruleName/list";
     }
 
@@ -38,10 +39,12 @@ public class RuleNameController {
     @PostMapping("/ruleName/validate")
     public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            // TODO return field list with error message
+            model.addAttribute("errors", result.getFieldErrors());
+            return "ruleName/add";
         }
         ruleNameService.save(ruleName);
-        return "ruleName/add";
+        model.addAttribute(RULE_NAMES, ruleNameService.getAllRuleNames());
+        return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/ruleName/update/{id}")
@@ -55,15 +58,18 @@ public class RuleNameController {
     public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result,
             Model model) {
         if (result.hasErrors()) {
-            // TODO return field list with error message
+            model.addAttribute("errors", result.getFieldErrors());
+            return "ruleName/update";
         }
         ruleNameService.update(id, ruleName);
-        return "redirect:/ruleName/list";
+        model.addAttribute(RULE_NAMES, ruleNameService.getAllRuleNames());
+        return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/ruleName/delete/{id}")
     public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
         ruleNameService.delete(ruleNameService.getRuleNameById(id));
-        return "redirect:/ruleName/list";
+        model.addAttribute(RULE_NAMES, ruleNameService.getAllRuleNames());
+        return REDIRECT_SUCCESS;
     }
 }

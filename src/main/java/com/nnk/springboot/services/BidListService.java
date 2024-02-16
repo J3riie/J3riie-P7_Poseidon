@@ -20,17 +20,17 @@ public class BidListService {
         return repository.findAll();
     }
 
-    public void save(BidList bid) {
-        repository.save(bid);
+    public BidList save(BidList bid) {
+        return repository.save(bid);
     }
 
     public BidList getBidById(Integer id) {
         return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid bid Id:" + id));
     }
 
-    public void update(Integer id, BidList bidList) {
+    public BidList update(Integer id, BidList bidList) {
         bidList.setBidListId(id);
-        repository.save(bidList);
+        return repository.save(bidList);
     }
 
     public void delete(BidList bid) {

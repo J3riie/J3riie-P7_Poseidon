@@ -20,17 +20,17 @@ public class RatingService {
         return repository.findAll();
     }
 
-    public void save(Rating rating) {
-        repository.save(rating);
+    public Rating save(Rating rating) {
+        return repository.save(rating);
     }
 
     public Rating getRatingById(Integer id) {
         return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid rating Id:" + id));
     }
 
-    public void update(Integer id, Rating rating) {
+    public Rating update(Integer id, Rating rating) {
         rating.setId(id);
-        repository.save(rating);
+        return repository.save(rating);
 
     }
 

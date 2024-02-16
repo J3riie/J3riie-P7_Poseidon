@@ -20,18 +20,17 @@ public class CurvePointService {
         return repository.findAll();
     }
 
-    public void save(CurvePoint curvePoint) {
-        repository.save(curvePoint);
-
+    public CurvePoint save(CurvePoint curvePoint) {
+        return repository.save(curvePoint);
     }
 
     public CurvePoint getCurveById(Integer id) {
         return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid curve Id:" + id));
     }
 
-    public void update(Integer id, CurvePoint curvePoint) {
+    public CurvePoint update(Integer id, CurvePoint curvePoint) {
         curvePoint.setId(id);
-        repository.save(curvePoint);
+        return repository.save(curvePoint);
     }
 
     public void delete(CurvePoint curvePoint) {

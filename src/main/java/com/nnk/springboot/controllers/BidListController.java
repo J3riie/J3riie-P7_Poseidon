@@ -1,7 +1,5 @@
 package com.nnk.springboot.controllers;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,14 +17,17 @@ public class BidListController {
 
     private final BidListService bidService;
 
+    private static final String BIDS = "bids";
+
+    private static final String REDIRECT_SUCCESS = "redirect:/bidList/list";
+
     public BidListController(BidListService bidService) {
         this.bidService = bidService;
     }
 
     @GetMapping("/bidList/list")
     public String home(Model model) {
-        final List<BidList> allBids = bidService.getAllBids();
-        model.addAttribute("bids", allBids);
+        model.addAttribute(BIDS, bidService.getAllBids());
         return "bidList/list";
     }
 
@@ -38,10 +39,12 @@ public class BidListController {
     @PostMapping("/bidList/validate")
     public String validate(@Valid BidList bid, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            // TODO return field list with error message
+            model.addAttribute("errors", result.getFieldErrors());
+            return "bidList/add";
         }
         bidService.save(bid);
-        return "bidList/add";
+        model.addAttribute(BIDS, bidService.getAllBids());
+        return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/bidList/update/{id}")
@@ -54,15 +57,18 @@ public class BidListController {
     @PostMapping("/bidList/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            // TODO return field list with error message
+            model.addAttribute("errors", result.getFieldErrors());
+            return "bidList/update";
         }
         bidService.update(id, bidList);
-        return "redirect:/bidList/list";
+        model.addAttribute(BIDS, bidService.getAllBids());
+        return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/bidList/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
         bidService.delete(bidService.getBidById(id));
-        return "redirect:/bidList/list";
+        model.addAttribute(BIDS, bidService.getAllBids());
+        return REDIRECT_SUCCESS;
     }
 }

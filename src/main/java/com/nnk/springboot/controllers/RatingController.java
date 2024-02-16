@@ -1,7 +1,5 @@
 package com.nnk.springboot.controllers;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,14 +17,17 @@ public class RatingController {
 
     private final RatingService ratingService;
 
+    private static final String RATINGS = "ratings";
+
+    private static final String REDIRECT_SUCCESS = "redirect:/rating/list";
+
     public RatingController(RatingService ratingService) {
         this.ratingService = ratingService;
     }
 
     @GetMapping("/rating/list")
     public String home(Model model) {
-        final List<Rating> allRatings = ratingService.getAllRatings();
-        model.addAttribute("ratings", allRatings);
+        model.addAttribute(RATINGS, ratingService.getAllRatings());
         return "rating/list";
     }
 
@@ -38,10 +39,12 @@ public class RatingController {
     @PostMapping("/rating/validate")
     public String validate(@Valid Rating rating, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            // TODO return field list with error message
+            model.addAttribute("errors", result.getFieldErrors());
+            return "rating/add";
         }
         ratingService.save(rating);
-        return "rating/add";
+        model.addAttribute(RATINGS, ratingService.getAllRatings());
+        return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/rating/update/{id}")
@@ -55,15 +58,18 @@ public class RatingController {
     public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result,
             Model model) {
         if (result.hasErrors()) {
-            // TODO return field list with error message
+            model.addAttribute("errors", result.getFieldErrors());
+            return "rating/update";
         }
         ratingService.update(id, rating);
-        return "redirect:/rating/list";
+        model.addAttribute(RATINGS, ratingService.getAllRatings());
+        return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/rating/delete/{id}")
     public String deleteRating(@PathVariable("id") Integer id, Model model) {
         ratingService.delete(ratingService.getRatingById(id));
-        return "redirect:/rating/list";
+        model.addAttribute(RATINGS, ratingService.getAllRatings());
+        return REDIRECT_SUCCESS;
     }
 }

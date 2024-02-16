@@ -20,17 +20,17 @@ public class RuleNameService {
         return repository.findAll();
     }
 
-    public void save(RuleName ruleName) {
-        repository.save(ruleName);
+    public RuleName save(RuleName ruleName) {
+        return repository.save(ruleName);
     }
 
     public RuleName getRuleNameById(Integer id) {
         return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid rule name Id:" + id));
     }
 
-    public void update(Integer id, RuleName ruleName) {
+    public RuleName update(Integer id, RuleName ruleName) {
         ruleName.setId(id);
-        repository.save(ruleName);
+        return repository.save(ruleName);
     }
 
     public void delete(RuleName ruleName) {

@@ -14,14 +14,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Trade")
+@Table(name = "User")
 @Getter
 @Setter
 @NoArgsConstructor
 public class Trade {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "TradeId")
+    @Column(name = "UserId")
     private Integer tradeId;
 
     @NotBlank

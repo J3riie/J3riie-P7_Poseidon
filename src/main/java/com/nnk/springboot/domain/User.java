@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,6 +27,8 @@ public class User {
     private String username;
 
     @NotBlank(message = "Password is mandatory")
+    // TODO mini 8 caracteres avec min et maj, chiffre et symbole
+    @Pattern(regexp = "")
     private String password;
 
     @NotBlank(message = "FullName is mandatory")

@@ -20,17 +20,17 @@ public class TradeService {
         return repository.findAll();
     }
 
-    public void save(Trade trade) {
-        repository.save(trade);
+    public Trade save(Trade trade) {
+        return repository.save(trade);
     }
 
     public Trade getTradeById(Integer id) {
         return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid trade Id:" + id));
     }
 
-    public void update(Integer id, Trade trade) {
+    public Trade update(Integer id, Trade trade) {
         trade.setTradeId(id);
-        repository.save(trade);
+        return repository.save(trade);
     }
 
     public void delete(Trade trade) {
