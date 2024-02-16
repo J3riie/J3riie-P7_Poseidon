@@ -2,6 +2,7 @@ package com.nnk.springboot.domain;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,14 +14,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "Trade")
+@Table(name = "User")
 @Getter
 @Setter
 @NoArgsConstructor
 public class Trade {
-    // TODO: Map columns in data table TRADE with corresponding java fields
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "UserId")
     private Integer tradeId;
 
     @NotBlank

@@ -13,6 +13,7 @@ public class HomeController {
 
     @GetMapping("/admin/home")
     public String adminHome(Model model) {
+        // TODO uniquement user avec role admin
         return "redirect:/bidList/list";
     }
 

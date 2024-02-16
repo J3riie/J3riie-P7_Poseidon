@@ -1,4 +1,4 @@
-package com.nnk.springboot;
+package com.nnk.springboot.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,13 +7,13 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.repositories.TradeRepository;
 
-@SpringBootTest
-public class TradeTests {
+@DataJpaTest
+public class TradeRepositoryTest {
 
     @Autowired
     private TradeRepository tradeRepository;
@@ -38,8 +38,10 @@ public class TradeTests {
 
         // Delete
         final Integer id = trade.getTradeId();
+        final Optional<Trade> tradeListBeforeDelete = tradeRepository.findById(id);
         tradeRepository.delete(trade);
-        final Optional<Trade> tradeList = tradeRepository.findById(id);
-        assertThat(tradeList).isPresent();
+        final Optional<Trade> tradeListAfterDelete = tradeRepository.findById(id);
+        assertThat(tradeListBeforeDelete).isPresent();
+        assertThat(tradeListAfterDelete).isEmpty();
     }
 }

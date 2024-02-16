@@ -1,4 +1,4 @@
-package com.nnk.springboot;
+package com.nnk.springboot.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,13 +7,13 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
 
-@SpringBootTest
-public class BidTests {
+@DataJpaTest
+public class BidListRepositoryTest {
 
     @Autowired
     private BidListRepository bidListRepository;
@@ -37,8 +37,10 @@ public class BidTests {
 
         // Delete
         final Integer id = bid.getBidListId();
+        final Optional<BidList> bidListBeforeDelete = bidListRepository.findById(id);
         bidListRepository.delete(bid);
-        final Optional<BidList> bidList = bidListRepository.findById(id);
-        assertThat(bidList).isPresent();
+        final Optional<BidList> bidListAfterDelete = bidListRepository.findById(id);
+        assertThat(bidListBeforeDelete).isPresent();
+        assertThat(bidListAfterDelete).isEmpty();
     }
 }

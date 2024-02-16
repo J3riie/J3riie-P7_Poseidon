@@ -1,11 +1,13 @@
 package com.nnk.springboot.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,12 +20,15 @@ import lombok.Setter;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "Id")
     private Integer id;
 
     @NotBlank(message = "Username is mandatory")
     private String username;
 
     @NotBlank(message = "Password is mandatory")
+    // TODO mini 8 caracteres avec min et maj, chiffre et symbole
+    @Pattern(regexp = "")
     private String password;
 
     @NotBlank(message = "FullName is mandatory")

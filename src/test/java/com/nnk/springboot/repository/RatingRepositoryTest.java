@@ -1,4 +1,4 @@
-package com.nnk.springboot;
+package com.nnk.springboot.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -7,13 +7,13 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
 
-@SpringBootTest
-public class RatingTests {
+@DataJpaTest
+public class RatingRepositoryTest {
 
     @Autowired
     private RatingRepository ratingRepository;
@@ -38,8 +38,10 @@ public class RatingTests {
 
         // Delete
         final Integer id = rating.getId();
+        final Optional<Rating> ratingListBeforeDelete = ratingRepository.findById(id);
         ratingRepository.delete(rating);
-        final Optional<Rating> ratingList = ratingRepository.findById(id);
-        assertThat(ratingList).isPresent();
+        final Optional<Rating> ratingListAfterDelete = ratingRepository.findById(id);
+        assertThat(ratingListBeforeDelete).isPresent();
+        assertThat(ratingListAfterDelete).isEmpty();
     }
 }
