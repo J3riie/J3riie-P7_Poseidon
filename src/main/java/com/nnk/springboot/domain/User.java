@@ -27,8 +27,7 @@ public class User {
     private String username;
 
     @NotBlank(message = "Password is mandatory")
-    // TODO mini 8 caracteres avec min et maj, chiffre et symbole
-    @Pattern(regexp = "")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>])(?=\\S+$).{8,}$")
     private String password;
 
     @NotBlank(message = "FullName is mandatory")
