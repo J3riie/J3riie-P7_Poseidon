@@ -13,11 +13,11 @@ public class UserService {
 
     private final UserRepository repository;
 
-    private final PasswordEncoder encoder;
+//    private final PasswordEncoder encoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder encoder) {
+    public UserService(UserRepository userRepository) {
         this.repository = userRepository;
-        this.encoder = encoder;
+//        this.encoder = encoder;
     }
 
     public List<User> getAllUsers() {
@@ -25,7 +25,7 @@ public class UserService {
     }
 
     public User save(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
+//        user.setPassword(encoder.encode(user.getPassword()));
         return repository.save(user);
     }
 
