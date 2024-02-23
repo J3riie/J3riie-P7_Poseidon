@@ -2,7 +2,7 @@ package com.nnk.springboot.services;
 
 import java.util.List;
 
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.User;
@@ -13,11 +13,11 @@ public class UserService {
 
     private final UserRepository repository;
 
-    private final PasswordEncoder encoder;
+    // private final PasswordEncoder encoder;
 
-    public UserService(UserRepository userRepository, PasswordEncoder encoder) {
+    public UserService(UserRepository userRepository/* , PasswordEncoder encoder */) {
         this.repository = userRepository;
-        this.encoder = encoder;
+        // this.encoder = encoder;
     }
 
     public List<User> getAllUsers() {
@@ -25,6 +25,7 @@ public class UserService {
     }
 
     public User save(User user) {
+        final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         user.setPassword(encoder.encode(user.getPassword()));
         return repository.save(user);
     }

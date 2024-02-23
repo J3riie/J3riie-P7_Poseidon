@@ -1,5 +1,7 @@
 package com.nnk.springboot.controllers;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,8 +15,11 @@ public class HomeController {
 
     @GetMapping("/admin/home")
     public String adminHome(Model model) {
-        // TODO uniquement user avec role admin
-        return "redirect:/bidList/list";
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+            return "redirect:/bidList/list";
+        }
+        return "/error";
     }
 
 }

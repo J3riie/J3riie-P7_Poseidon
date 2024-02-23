@@ -12,17 +12,19 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "BidList")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 public class BidList {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "BidListId")
-    private Integer bidListId;
+    private Integer id;
 
     @NotBlank
     private String account;
@@ -73,4 +75,5 @@ public class BidList {
         this.type = type;
         this.bidQuantity = bidQuantity;
     }
+
 }

@@ -29,7 +29,7 @@ public class BidListService {
     }
 
     public BidList update(Integer id, BidList bidList) {
-        bidList.setBidListId(id);
+        bidList.setId(id);
         return repository.save(bidList);
     }
 

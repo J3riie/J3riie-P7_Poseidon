@@ -17,7 +17,7 @@ public class BidListController {
 
     private final BidListService bidService;
 
-    private static final String BIDS = "bids";
+    private static final String BIDS = "bidLists";
 
     private static final String REDIRECT_SUCCESS = "redirect:/bidList/list";
 
@@ -50,7 +50,7 @@ public class BidListController {
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         final BidList bid = bidService.getBidById(id);
-        model.addAttribute("bid", bid);
+        model.addAttribute("bidList", bid);
         return "bidList/update";
     }
 

@@ -13,22 +13,18 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class SecurityConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
-    public UserDetailsService users() {
-        UserDetails user = User.builder()
-                .username("user")
-                .password("{bcrypt}$2a$10$NO9SvxeyObq.6sb9o4wdOewqOfgjzGJsti8RZaYjulSYzeTij7S5y") //user
-                .roles("USER")
-                .build();
-        UserDetails admin = User.builder()
-                .username("admin")
+    UserDetailsService users() {
+        final UserDetails user = User.builder().username("user")
+                .password("{bcrypt}$2a$10$NO9SvxeyObq.6sb9o4wdOewqOfgjzGJsti8RZaYjulSYzeTij7S5y") // user
+                .roles("USER").build();
+        final UserDetails admin = User.builder().username("admin")
                 .password("{bcrypt}$2a$10$1AkPsgCps7CSIdclFIZfr.q3AwYnd4jOfF7XxGNINaP.KJ6EYjjSW") // admin
-                .roles("USER", "ADMIN")
-                .build();
+                .roles("USER", "ADMIN").build();
         return new InMemoryUserDetailsManager(user, admin);
     }
 

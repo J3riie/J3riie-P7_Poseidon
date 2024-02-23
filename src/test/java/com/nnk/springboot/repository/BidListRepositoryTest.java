@@ -23,7 +23,7 @@ public class BidListRepositoryTest {
         BidList bid = new BidList("Account Test", "Type Test", 10d);
         // Save
         bid = bidListRepository.save(bid);
-        assertThat(bid.getBidListId()).isNotNull();
+        assertThat(bid.getId()).isNotNull();
         assertThat(bid.getBidQuantity()).isEqualTo(10d);
 
         // Update
@@ -36,7 +36,7 @@ public class BidListRepositoryTest {
         assertThat(listResult).isNotEmpty();
 
         // Delete
-        final Integer id = bid.getBidListId();
+        final Integer id = bid.getId();
         final Optional<BidList> bidListBeforeDelete = bidListRepository.findById(id);
         bidListRepository.delete(bid);
         final Optional<BidList> bidListAfterDelete = bidListRepository.findById(id);
