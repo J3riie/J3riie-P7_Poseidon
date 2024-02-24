@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
+
     @GetMapping("/")
     public String home(Model model) {
         return "home";
@@ -19,7 +20,7 @@ public class HomeController {
         if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
             return "redirect:/bidList/list";
         }
-        return "/error";
+        return "redirect:/unauthorized";
     }
 
 }
