@@ -29,7 +29,8 @@ public class User {
     //@formatter:off
     @NotBlank(message = "Password is mandatory")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>])(?=\\S+$).{8,}$",
-    message = "The password must contain a lower case letter, an uppercase letter, a number, a special character and be at least 8 characters long")
+    message = "The password must contain a lower case letter, an uppercase letter, a number, "
+            + "a special character and be at least 8 characters long")
     //@formatter:on
     private String password;
 

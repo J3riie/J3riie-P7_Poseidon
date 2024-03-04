@@ -24,10 +24,10 @@ public class BidList {
     @Column(name = "BidListId")
     private Integer id;
 
-    @NotBlank
+    @NotBlank(message = "Account is mandatory")
     private String account;
 
-    @NotBlank
+    @NotBlank(message = "Type is mandatory")
     private String type;
 
     private double bidQuantity;

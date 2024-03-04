@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,9 +28,11 @@ public class CurvePoint {
 
     private LocalDateTime asOfDate;
 
+    @Min(value = 0, message = "Term must be over 0")
     private double term;
 
     @Column(name = "curve_value")
+    @Min(value = 0, message = "Value must be over 0")
     private double value;
 
     private LocalDateTime creationDate;
