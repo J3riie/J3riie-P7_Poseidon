@@ -18,7 +18,7 @@ public class HomeController {
     public String adminHome(Model model) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
-            return "redirect:/bidList/list";
+            return "redirect:/user/list";
         }
         return "redirect:/unauthorized";
     }

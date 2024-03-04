@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 
+/**
+ * This class maps the domain User object with the SpringSecurity User object
+ */
 @Service
 @Transactional
 public class CustomUserDetailsService implements UserDetailsService {
@@ -27,7 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         final User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username " + username + " not found"));
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-                Collections.singleton(new SimpleGrantedAuthority("USER")));
+                Collections.singleton(new SimpleGrantedAuthority(user.getRole())));
     }
-
 }
