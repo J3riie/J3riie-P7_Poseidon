@@ -1,47 +1,45 @@
-package com.nnk.springboot.repository;
+package com.nnk.springboot.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.nnk.springboot.domain.Trade;
-import com.nnk.springboot.repositories.TradeRepository;
 
-@DataJpaTest
-public class TradeRepositoryTest {
+@SpringBootTest
+public class TradeServiceTest {
 
     @Autowired
-    private TradeRepository tradeRepository;
+    private TradeService tradeService;
 
     @Test
     public void tradeTest() {
         Trade trade = new Trade("Trade Account", "Type");
 
         // Save
-        trade = tradeRepository.save(trade);
+        trade = tradeService.save(trade);
         assertThat(trade.getId()).isNotNull();
         assertThat(trade.getAccount()).isEqualTo("Trade Account");
 
         // Update
         trade.setAccount("Trade Account Update");
-        trade = tradeRepository.save(trade);
+        trade = tradeService.save(trade);
         assertThat(trade.getAccount()).isEqualTo("Trade Account Update");
 
         // Find
-        final List<Trade> listResult = tradeRepository.findAll();
+        final List<Trade> listResult = tradeService.getAllTrades();
         assertThat(listResult).isNotEmpty();
 
         // Delete
         final Integer id = trade.getId();
-        final Optional<Trade> tradeListBeforeDelete = tradeRepository.findById(id);
-        tradeRepository.delete(trade);
-        final Optional<Trade> tradeListAfterDelete = tradeRepository.findById(id);
-        assertThat(tradeListBeforeDelete).isPresent();
-        assertThat(tradeListAfterDelete).isEmpty();
+        final Trade tradeListBeforeDelete = tradeService.getTradeById(id);
+        tradeService.delete(trade);
+        assertThat(tradeListBeforeDelete).isNotNull();
+        assertThrows(IllegalArgumentException.class, () -> tradeService.getTradeById(id));
     }
 }
