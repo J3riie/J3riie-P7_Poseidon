@@ -71,8 +71,9 @@ public class UserController {
     }
 
     @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable("id") Integer id, Model model) {
+    public String deleteUser(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         userService.delete(userService.getUserById(id));
+        redirectAttributes.addFlashAttribute("deletionSuccess", "User deleted successfully!");
         model.addAttribute(USERS, userService.getAllUsers());
         return REDIRECT_SUCCESS;
     }

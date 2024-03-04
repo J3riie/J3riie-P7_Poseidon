@@ -71,8 +71,9 @@ public class BidListController {
     }
 
     @GetMapping("/bidList/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    public String deleteBid(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         bidService.delete(bidService.getBidById(id));
+        redirectAttributes.addFlashAttribute("deletionSuccess", "Bid List deleted successfully!");
         model.addAttribute(BIDS, bidService.getAllBids());
         return REDIRECT_SUCCESS;
     }

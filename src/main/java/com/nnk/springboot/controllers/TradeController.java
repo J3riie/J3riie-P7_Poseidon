@@ -71,8 +71,9 @@ public class TradeController {
     }
 
     @GetMapping("/trade/delete/{id}")
-    public String deleteTrade(@PathVariable("id") Integer id, Model model) {
+    public String deleteTrade(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         tradeService.delete(tradeService.getTradeById(id));
+        redirectAttributes.addFlashAttribute("deletionSuccess", "Trade deleted successfully!");
         model.addAttribute(TRADES, tradeService.getAllTrades());
         return REDIRECT_SUCCESS;
     }

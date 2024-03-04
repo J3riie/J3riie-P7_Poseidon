@@ -71,8 +71,9 @@ public class RatingController {
     }
 
     @GetMapping("/rating/delete/{id}")
-    public String deleteRating(@PathVariable("id") Integer id, Model model) {
+    public String deleteRating(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         ratingService.delete(ratingService.getRatingById(id));
+        redirectAttributes.addFlashAttribute("deletionSuccess", "Rating deleted successfully!");
         model.addAttribute(RATINGS, ratingService.getAllRatings());
         return REDIRECT_SUCCESS;
     }

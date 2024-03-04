@@ -71,8 +71,9 @@ public class CurveController {
     }
 
     @GetMapping("/curvePoint/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    public String deleteBid(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         curveService.delete(curveService.getCurveById(id));
+        redirectAttributes.addFlashAttribute("deletionSuccess", "Curve Point deleted successfully!");
         model.addAttribute(CURVE_POINTS, curveService.getAllCurves());
         return REDIRECT_SUCCESS;
     }

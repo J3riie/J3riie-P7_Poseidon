@@ -71,8 +71,9 @@ public class RuleNameController {
     }
 
     @GetMapping("/ruleName/delete/{id}")
-    public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
+    public String deleteRuleName(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         ruleNameService.delete(ruleNameService.getRuleNameById(id));
+        redirectAttributes.addFlashAttribute("deletionSuccess", "Rule Name deleted successfully!");
         model.addAttribute(RULE_NAMES, ruleNameService.getAllRuleNames());
         return REDIRECT_SUCCESS;
     }
