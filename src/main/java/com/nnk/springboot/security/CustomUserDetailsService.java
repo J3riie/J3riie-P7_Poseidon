@@ -13,7 +13,8 @@ import com.nnk.springboot.domain.User;
 import com.nnk.springboot.repositories.UserRepository;
 
 /**
- * This class maps the domain User object with the SpringSecurity User object
+ * This class maps the domain User object with the SpringSecurity User object.
+ * It permits the authentication of a user with his password and role in the database.
  */
 @Service
 @Transactional

@@ -22,7 +22,9 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-//TODO javadoc for this class
+/**
+ * This class is the security configuration for access control and password encoding.
+ */
 @Configuration
 public class SecurityConfig {
 
