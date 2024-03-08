@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.services.CurvePointService;
@@ -37,12 +38,14 @@ public class CurveController {
     }
 
     @PostMapping("/curvePoint/validate")
-    public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
+    public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors());
             return "curvePoint/add";
         }
         curveService.save(curvePoint);
+        redirectAttributes.addFlashAttribute("additionSuccess", "Curve Point added successfully!");
         model.addAttribute(CURVE_POINTS, curveService.getAllCurves());
         return REDIRECT_SUCCESS;
     }
@@ -56,19 +59,21 @@ public class CurveController {
 
     @PostMapping("/curvePoint/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result,
-            Model model) {
+            Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors());
             return "curvePoint/update";
         }
         curveService.update(id, curvePoint);
+        redirectAttributes.addFlashAttribute("updateSuccess", "Curve Point updated successfully!");
         model.addAttribute(CURVE_POINTS, curveService.getAllCurves());
         return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/curvePoint/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    public String deleteBid(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         curveService.delete(curveService.getCurveById(id));
+        redirectAttributes.addFlashAttribute("deletionSuccess", "Curve Point deleted successfully!");
         model.addAttribute(CURVE_POINTS, curveService.getAllCurves());
         return REDIRECT_SUCCESS;
     }

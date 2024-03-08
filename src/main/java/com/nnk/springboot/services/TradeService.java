@@ -29,7 +29,7 @@ public class TradeService {
     }
 
     public Trade update(Integer id, Trade trade) {
-        trade.setTradeId(id);
+        trade.setId(id);
         return repository.save(trade);
     }
 

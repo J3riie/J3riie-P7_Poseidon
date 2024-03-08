@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.services.RuleNameService;
@@ -37,12 +38,14 @@ public class RuleNameController {
     }
 
     @PostMapping("/ruleName/validate")
-    public String validate(@Valid RuleName ruleName, BindingResult result, Model model) {
+    public String validate(@Valid RuleName ruleName, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors());
             return "ruleName/add";
         }
         ruleNameService.save(ruleName);
+        redirectAttributes.addFlashAttribute("additionSuccess", "Rule Name added successfully!");
         model.addAttribute(RULE_NAMES, ruleNameService.getAllRuleNames());
         return REDIRECT_SUCCESS;
     }
@@ -56,19 +59,21 @@ public class RuleNameController {
 
     @PostMapping("/ruleName/update/{id}")
     public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result,
-            Model model) {
+            Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors());
             return "ruleName/update";
         }
         ruleNameService.update(id, ruleName);
+        redirectAttributes.addFlashAttribute("updateSuccess", "Rule Name updated successfully!");
         model.addAttribute(RULE_NAMES, ruleNameService.getAllRuleNames());
         return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/ruleName/delete/{id}")
-    public String deleteRuleName(@PathVariable("id") Integer id, Model model) {
+    public String deleteRuleName(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         ruleNameService.delete(ruleNameService.getRuleNameById(id));
+        redirectAttributes.addFlashAttribute("deletionSuccess", "Rule Name deleted successfully!");
         model.addAttribute(RULE_NAMES, ruleNameService.getAllRuleNames());
         return REDIRECT_SUCCESS;
     }

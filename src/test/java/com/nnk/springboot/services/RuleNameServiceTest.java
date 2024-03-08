@@ -1,47 +1,45 @@
-package com.nnk.springboot.repository;
+package com.nnk.springboot.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.nnk.springboot.domain.RuleName;
-import com.nnk.springboot.repositories.RuleNameRepository;
 
-@DataJpaTest
-public class RuleRepositoryTest {
+@SpringBootTest
+public class RuleNameServiceTest {
 
     @Autowired
-    private RuleNameRepository ruleNameRepository;
+    private RuleNameService ruleNameService;
 
     @Test
     public void ruleTest() {
         RuleName rule = new RuleName("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
 
         // Save
-        rule = ruleNameRepository.save(rule);
+        rule = ruleNameService.save(rule);
         assertThat(rule.getId()).isNotNull();
         assertThat(rule.getName()).isEqualTo("Rule Name");
 
         // Update
         rule.setName("Rule Name Update");
-        rule = ruleNameRepository.save(rule);
+        rule = ruleNameService.save(rule);
         assertThat(rule.getName()).isEqualTo("Rule Name Update");
 
         // Find
-        final List<RuleName> listResult = ruleNameRepository.findAll();
+        final List<RuleName> listResult = ruleNameService.getAllRuleNames();
         assertThat(listResult).isNotEmpty();
 
         // Delete
         final Integer id = rule.getId();
-        final Optional<RuleName> ruleListBeforeDelete = ruleNameRepository.findById(id);
-        ruleNameRepository.delete(rule);
-        final Optional<RuleName> ruleListAfterDelete = ruleNameRepository.findById(id);
-        assertThat(ruleListBeforeDelete).isPresent();
-        assertThat(ruleListAfterDelete).isEmpty();
+        final RuleName ruleListBeforeDelete = ruleNameService.getRuleNameById(id);
+        ruleNameService.delete(rule);
+        assertThat(ruleListBeforeDelete).isNotNull();
+        assertThrows(IllegalArgumentException.class, () -> ruleNameService.getRuleNameById(id));
     }
 }

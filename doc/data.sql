@@ -25,8 +25,8 @@ CREATE TABLE BidList (
   PRIMARY KEY (BidListId)
 )
 
-CREATE TABLE User (
-  UserId tinyint(4) NOT NULL AUTO_INCREMENT,
+CREATE TABLE Trade (
+  TradeId tinyint(4) NOT NULL AUTO_INCREMENT,
   account VARCHAR(30) NOT NULL,
   type VARCHAR(30) NOT NULL,
   buyQuantity DOUBLE,
@@ -48,7 +48,7 @@ CREATE TABLE User (
   sourceListId VARCHAR(125),
   side VARCHAR(125),
 
-  PRIMARY KEY (UserId)
+  PRIMARY KEY (TradeId)
 )
 
 CREATE TABLE CurvePoint (
@@ -94,5 +94,5 @@ CREATE TABLE Users (
   PRIMARY KEY (Id)
 )
 
-insert into Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "ADMIN")
-insert into Users(fullname, username, password, role) values("User", "user", "$2a$10$pBV8ILO/s/nao4wVnGLrh.sa/rnr5pDpbeC4E.KNzQWoy8obFZdaa", "USER")
+insert into Users(fullname, username, password, role) values("Administrator", "admin", "$2a$10$t/bYABBADTeFvYT8nbOMEexQFFzesPJ.XKwplvsTkl5U1D.ct/Gpe", "ROLE_ADMIN")
+insert into Users(fullname, username, password, role) values("User", "user", "$2a$10$DU/S/mx56ll4IAkjmDUshOgQFvLtsnIWgb5pEZ.SR8Q7cjZ4ibVVC", "ROLE_USER")

@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.services.TradeService;
@@ -37,12 +38,14 @@ public class TradeController {
     }
 
     @PostMapping("/trade/validate")
-    public String validate(@Valid Trade trade, BindingResult result, Model model) {
+    public String validate(@Valid Trade trade, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors());
             return "trade/add";
         }
         tradeService.save(trade);
+        redirectAttributes.addFlashAttribute("additionSuccess", "Trade added successfully!");
         model.addAttribute(TRADES, tradeService.getAllTrades());
         return REDIRECT_SUCCESS;
     }
@@ -55,19 +58,22 @@ public class TradeController {
     }
 
     @PostMapping("/trade/update/{id}")
-    public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
+    public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors());
             return "trade/update";
         }
         tradeService.update(id, trade);
+        redirectAttributes.addFlashAttribute("updateSuccess", "Trade updated successfully!");
         model.addAttribute(TRADES, tradeService.getAllTrades());
         return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/trade/delete/{id}")
-    public String deleteTrade(@PathVariable("id") Integer id, Model model) {
+    public String deleteTrade(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         tradeService.delete(tradeService.getTradeById(id));
+        redirectAttributes.addFlashAttribute("deletionSuccess", "Trade deleted successfully!");
         model.addAttribute(TRADES, tradeService.getAllTrades());
         return REDIRECT_SUCCESS;
     }

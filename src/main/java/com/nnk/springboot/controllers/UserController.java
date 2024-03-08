@@ -6,6 +6,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.services.UserService;
@@ -37,12 +38,13 @@ public class UserController {
     }
 
     @PostMapping("/user/validate")
-    public String validate(@Valid User user, BindingResult result, Model model) {
+    public String validate(@Valid User user, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors());
             return "user/add";
         }
         userService.save(user);
+        redirectAttributes.addFlashAttribute("additionSuccess", "User added successfully!");
         model.addAttribute(USERS, userService.getAllUsers());
         return REDIRECT_SUCCESS;
     }
@@ -56,19 +58,22 @@ public class UserController {
     }
 
     @PostMapping("/user/update/{id}")
-    public String updateUser(@PathVariable("id") Integer id, @Valid User user, BindingResult result, Model model) {
+    public String updateUser(@PathVariable("id") Integer id, @Valid User user, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
         if (result.hasErrors()) {
             model.addAttribute("errors", result.getFieldErrors());
             return "user/update";
         }
         userService.update(id, user);
+        redirectAttributes.addFlashAttribute("updateSuccess", "User updated successfully!");
         model.addAttribute(USERS, userService.getAllUsers());
         return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/user/delete/{id}")
-    public String deleteUser(@PathVariable("id") Integer id, Model model) {
+    public String deleteUser(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         userService.delete(userService.getUserById(id));
+        redirectAttributes.addFlashAttribute("deletionSuccess", "User deleted successfully!");
         model.addAttribute(USERS, userService.getAllUsers());
         return REDIRECT_SUCCESS;
     }
