@@ -1,47 +1,46 @@
-package com.nnk.springboot;
+package com.nnk.springboot.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.nnk.springboot.domain.CurvePoint;
-import com.nnk.springboot.repositories.CurvePointRepository;
 
 @SpringBootTest
-public class CurvePointTests {
+public class CurvePointServiceTest {
 
     @Autowired
-    private CurvePointRepository curvePointRepository;
+    private CurvePointService curvePointService;
 
     @Test
     public void curvePointTest() {
         CurvePoint curvePoint = new CurvePoint(10, 10d, 30d);
 
         // Save
-        curvePoint = curvePointRepository.save(curvePoint);
+        curvePoint = curvePointService.save(curvePoint);
         assertThat(curvePoint.getId()).isNotNull();
         assertThat(curvePoint.getCurveId()).isEqualTo(10);
 
         // Update
         curvePoint.setCurveId(20);
-        curvePoint = curvePointRepository.save(curvePoint);
+        curvePoint = curvePointService.save(curvePoint);
         assertThat(curvePoint.getCurveId()).isEqualTo(20);
 
         // Find
-        final List<CurvePoint> listResult = curvePointRepository.findAll();
+        final List<CurvePoint> listResult = curvePointService.getAllCurves();
         assertThat(listResult).isNotEmpty();
 
         // Delete
         final Integer id = curvePoint.getId();
-        curvePointRepository.delete(curvePoint);
-        final Optional<CurvePoint> curvePointList = curvePointRepository.findById(id);
-        assertThat(curvePointList).isPresent();
+        final CurvePoint curvePointListBeforeDelete = curvePointService.getCurveById(id);
+        curvePointService.delete(curvePoint);
+        assertThat(curvePointListBeforeDelete).isNotNull();
+        assertThrows(IllegalArgumentException.class, () -> curvePointService.getCurveById(id));
     }
 
 }

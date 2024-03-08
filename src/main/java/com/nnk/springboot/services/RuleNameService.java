@@ -5,34 +5,36 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.domain.RuleName;
-
-import jakarta.validation.Valid;
+import com.nnk.springboot.repositories.RuleNameRepository;
 
 @Service
 public class RuleNameService {
 
-    public List<RuleName> getAllRuleNames() {
-        // TODO Auto-generated method stub
-        return null;
+    private final RuleNameRepository repository;
+
+    public RuleNameService(RuleNameRepository ruleNameRepository) {
+        this.repository = ruleNameRepository;
     }
 
-    public void save() {
-        // TODO Auto-generated method stub
+    public List<RuleName> getAllRuleNames() {
+        return repository.findAll();
+    }
 
+    public RuleName save(RuleName ruleName) {
+        return repository.save(ruleName);
     }
 
     public RuleName getRuleNameById(Integer id) {
-        // TODO Auto-generated method stub
-        return null;
+        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid rule name Id:" + id));
     }
 
-    public void update(@Valid RuleName ruleName) {
-        // TODO Auto-generated method stub
-
+    public RuleName update(Integer id, RuleName ruleName) {
+        ruleName.setId(id);
+        return repository.save(ruleName);
     }
 
-    public void delete(RuleName ruleNameById) {
-        // TODO Auto-generated method stub
+    public void delete(RuleName ruleName) {
+        repository.delete(ruleName);
 
     }
 

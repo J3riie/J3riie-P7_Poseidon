@@ -1,14 +1,12 @@
 package com.nnk.springboot.controllers;
 
-import java.util.List;
-import java.util.Objects;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.services.BidListService;
@@ -20,15 +18,17 @@ public class BidListController {
 
     private final BidListService bidService;
 
+    private static final String BIDS = "bidLists";
+
+    private static final String REDIRECT_SUCCESS = "redirect:/bidList/list";
+
     public BidListController(BidListService bidService) {
         this.bidService = bidService;
     }
 
     @GetMapping("/bidList/list")
     public String home(Model model) {
-        // TODO: call service find all bids to show to the view
-        final List<BidList> allBids = bidService.getAllBids();
-        model.addAttribute(allBids);
+        model.addAttribute(BIDS, bidService.getAllBids());
         return "bidList/list";
     }
 
@@ -38,38 +38,43 @@ public class BidListController {
     }
 
     @PostMapping("/bidList/validate")
-    public String validate(@Valid BidList bid, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return bid list
-        if (bid.getBidListId() == null || bid.getAccount().isBlank() || bid.getType().isBlank()) {
-            throw new RuntimeException();
+    public String validate(@Valid BidList bid, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getFieldErrors());
+            return "bidList/add";
         }
         bidService.save(bid);
-        return "bidList/add";
+        redirectAttributes.addFlashAttribute("additionSuccess", "Bid List added successfully!");
+        model.addAttribute(BIDS, bidService.getAllBids());
+        return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get Bid by Id and to model then show to the form
         final BidList bid = bidService.getBidById(id);
-        model.addAttribute(bid);
+        model.addAttribute("bidList", bid);
         return "bidList/update";
     }
 
     @PostMapping("/bidList/update/{id}")
-    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Bid and return list Bid
-        if (!Objects.equals(bidList.getBidListId(), id) || bidList.getAccount().isBlank()
-                || bidList.getType().isBlank()) {
-            throw new RuntimeException();
+    public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList, BindingResult result, Model model,
+            RedirectAttributes redirectAttributes) {
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getFieldErrors());
+            return "bidList/update";
         }
-        bidService.update(bidList);
-        return "redirect:/bidList/list";
+        bidService.update(id, bidList);
+        redirectAttributes.addFlashAttribute("updateSuccess", "Bid List updated successfully!");
+        model.addAttribute(BIDS, bidService.getAllBids());
+        return REDIRECT_SUCCESS;
     }
 
     @GetMapping("/bidList/delete/{id}")
-    public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Bid by Id and delete the bid, return to Bid list
+    public String deleteBid(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         bidService.delete(bidService.getBidById(id));
-        return "redirect:/bidList/list";
+        redirectAttributes.addFlashAttribute("deletionSuccess", "Bid List deleted successfully!");
+        model.addAttribute(BIDS, bidService.getAllBids());
+        return REDIRECT_SUCCESS;
     }
 }

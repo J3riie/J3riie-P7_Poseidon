@@ -1,3 +1,7 @@
 target/
+<<<<<<< HEAD
+.idea/
+=======
 .idea/
 spring-boot-skeleton.iml
+>>>>>>> d7849823ad6e50b832dd45c2811ec78306a40f52

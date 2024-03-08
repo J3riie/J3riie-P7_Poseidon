@@ -1,44 +1,44 @@
-package com.nnk.springboot;
+package com.nnk.springboot.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.repositories.BidListRepository;
 
 @SpringBootTest
-public class BidTests {
+public class BidListRepositoryTest {
 
     @Autowired
-    private BidListRepository bidListRepository;
+    private BidListService bidListService;
 
     @Test
     public void bidListTest() {
         BidList bid = new BidList("Account Test", "Type Test", 10d);
         // Save
-        bid = bidListRepository.save(bid);
-        assertThat(bid.getBidListId()).isNotNull();
+        bid = bidListService.save(bid);
+        assertThat(bid.getId()).isNotNull();
         assertThat(bid.getBidQuantity()).isEqualTo(10d);
 
         // Update
         bid.setBidQuantity(20d);
-        bid = bidListRepository.save(bid);
+        bid = bidListService.save(bid);
         assertThat(bid.getBidQuantity()).isEqualTo(20d);
 
         // Find
-        final List<BidList> listResult = bidListRepository.findAll();
+        final List<BidList> listResult = bidListService.getAllBids();
         assertThat(listResult).isNotEmpty();
 
         // Delete
-        final Integer id = bid.getBidListId();
-        bidListRepository.delete(bid);
-        final Optional<BidList> bidList = bidListRepository.findById(id);
-        assertThat(bidList).isPresent();
+        final Integer id = bid.getId();
+        final BidList bidListBeforeDelete = bidListService.getBidById(id);
+        bidListService.delete(bid);
+        assertThat(bidListBeforeDelete).isNotNull();
+        assertThrows(IllegalArgumentException.class, () -> bidListService.getBidById(id));
     }
 }
