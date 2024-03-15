@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.nnk.springboot.domain.BidList;
 
 @SpringBootTest
-public class BidListRepositoryTest {
+public class BidListServiceTest {
 
     @Autowired
     private BidListService bidListService;
