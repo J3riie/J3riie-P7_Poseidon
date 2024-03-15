@@ -42,5 +42,4 @@ public class RatingServiceTest {
         assertThat(ratingListBeforeDelete).isNotNull();
         assertThrows(IllegalArgumentException.class, () -> ratingService.getRatingById(id));
     }
-
 }
